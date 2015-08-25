@@ -1,0 +1,32 @@
+//Software debouncing in Interrupt, by Delphiño K.M.
+
+long debouncing_time = 15000; //Debouncing Time in Milliseconds
+volatile unsigned long last_millis;
+float veloc = 0;
+long tempo=0;
+
+void setup() {
+  Serial.begin(9600);
+  attachInterrupt(0, debounceInterrupt, RISING);
+}
+
+void loop() {
+}
+
+void debounceInterrupt() {
+  tempo=(micros() - last_millis);
+  //evita o debouncig, ou seja, que a chave ''feche'' 2 ou mais vezes num espaço de tempo muito curto. isso pode ocorrer por falha mecanica da chave.
+  if(tempo >= debouncing_time) {  
+      if ( tempo > 3000000) // zera se o imã ficar mais de 3segundos sem passar pelo sensor(reed switch)
+    {
+      veloc = 0;
+      Serial.print("Velocidade: ");
+      Serial.println(veloc);
+    }
+  veloc = ((3600000*2.08)/tempo); //multiplica-se por 3600000 para converter a velocidade para km/h. 2.08 é o comprimento da roda+pneu
+  Serial.print("Velocidade: ");
+  Serial.println(veloc);
+  }
+ 
+    last_millis = micros(); 
+}
