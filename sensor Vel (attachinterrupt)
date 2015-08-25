@@ -1,4 +1,5 @@
 //Software debouncing in Interrupt, by Delphiño K.M.
+//Desenvolvido por FSAE-UFSJ
 
 long debouncing_time = 15000; //Debouncing Time in Milliseconds
 volatile unsigned long last_millis;
